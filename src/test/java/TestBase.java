@@ -3,6 +3,9 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.ex.ElementShould;
 import com.codeborne.selenide.ex.ElementShouldNot;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.timeout;
@@ -25,12 +28,12 @@ public class TestBase {
 
     @Test
     public void logIn(){
-        $("#username").click();
-        $("#username").setValue("auto");
-        $("#text").setValue("auto");
-        $(byValue("user.password")).click(); //setValue("test");
-        $("#submit").click();
-
+        $(byXpath("//*[@id='username']//input")).click();
+        $(byXpath("//*[@id='username']//input")).sendKeys("auto");
+        $(byXpath("//*[@value='user.password']//input")).click();
+        $(byXpath("//*[@value='user.password']//input")).sendKeys("test");
+        $(byXpath("//*[@class='btn btn-primary pull-right']")).submit();
     }
 }
+
 
