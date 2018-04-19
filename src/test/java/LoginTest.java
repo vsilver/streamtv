@@ -1,4 +1,9 @@
+import com.codeborne.selenide.Condition;
 import org.junit.Test;
+
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.hidden;
+import static com.codeborne.selenide.Condition.visible;
 import static org.junit.Assert.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -15,10 +20,21 @@ public class LoginTest extends TestBase {
     }
 
     @Test
-    public void loginTest(){
+    public void successfullLoginTest(){
         String login = "auto";
         String pass = "test";
         logIn(login, pass);
-        assertEquals("Wrestlers", $(byXpath("//*[@class='tab-heading']")));
+        $(byXpath("//*[@class='btn btn-default']")).waitUntil(exist, 20000);
     }
+
+    @Test
+    public void failLoginTest(){
+        String login = "qqqq";
+        String pass = "aaaa";
+        logIn(login, pass);
+        $(byXpath("//*[@class='btn btn-default']")).waitUntil(hidden, 20000);
+    }
+
+
 }
+
