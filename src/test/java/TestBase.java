@@ -26,12 +26,13 @@ public class TestBase {
         open("http://streamtv.net.ua/base/");
     }
 
-    @Test
-    public void logIn(){
+    public void logIn(String login, String pass){
         $(byXpath("//*[@id='username']//input")).click();
-        $(byXpath("//*[@id='username']//input")).sendKeys("auto");
+        //$(byXpath("//*[@id='username']//input")).sendKeys("auto");
+        $(byXpath("//*[@id='username']//input")).sendKeys(login);
         $(byXpath("//*[@value='user.password']//input")).click();
-        $(byXpath("//*[@value='user.password']//input")).sendKeys("test");
+        //$(byXpath("//*[@value='user.password']//input")).sendKeys("test");
+        $(byXpath("//*[@value='user.password']//input")).sendKeys(pass);
         $(byXpath("//*[@class='btn btn-primary pull-right']")).submit();
     }
 }
