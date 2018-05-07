@@ -3,6 +3,8 @@ import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import org.junit.Test;
 import com.github.javafaker.Name.*;
+import org.openqa.selenium.support.ui.Select;
+
 import java.util.Random;
 
 import java.text.DateFormat;
@@ -25,7 +27,6 @@ public class TablePage extends TestBase {
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     String day_of_birth = dateFormat.format(date);
 
-    //SelenideElement region = $(byXpath("//*[@value='wr.region1']//select"));
     String region = "//*[@value='wr.region1']//select";
     String fst = "//*[@value='wr.fst1']//select";
     String style = "//*[@value='wr.style']//select";
@@ -33,9 +34,12 @@ public class TablePage extends TestBase {
     String year = "//*[@value='wr.expires']//select";
 
     public int getDropdownItemsCount(String myxpath){
-        ElementsCollection collection = $$(byXpath(myxpath));
-        return valueOf((int)(Math.random()*(collection.size()) + 1));
-        //return collection.size();
+        Select select = new Select($(byXpath(myxpath)));
+        int max = select.getOptions().size();
+        int min = 1;
+        int range = max - min ;
+        return ((int)(Math.random()*range) + min);
+
     }
 
     public void addNewRecord(){
@@ -45,16 +49,10 @@ public class TablePage extends TestBase {
         $(byXpath("//*[@value='wr.fname']//input")).setValue(first_name);
         $(byXpath("//*[@value='wr.mname']//input")).setValue(first_name);
         $(byXpath("//*[@value='wr.dob']//input")).setValue(day_of_birth);
-       // $(byXpath("//*[@value='wr.region1']//select")).selectOptionContainingText("Lvivska");
-        //$(byXpath(region)).selectOptionContainingText("Lvivska");
         $(byXpath(region)).selectOption(getDropdownItemsCount(region));
-        //$(byXpath("//*[@value='wr.fst1']//select")).selectOptionContainingText("Kolos");
         $(byXpath(fst)).selectOption(getDropdownItemsCount(fst));
-        //$(byXpath("//*[@value='wr.style']//select")).selectOptionContainingText("FW");
         $(byXpath(style)).selectOption(getDropdownItemsCount(style));
-        //$(byXpath("//*[@value='wr.lictype']//select")).selectOptionContainingText("Junior");
         $(byXpath(age)).selectOption(getDropdownItemsCount(age));
-        //$(byXpath("//*[@value='wr.expires']//select")).selectOptionContainingText("2015");
         $(byXpath(year)).selectOption(getDropdownItemsCount(year));
         $(byXpath("//*[@class='btn btn-lg btn-success']")).click();
     }
