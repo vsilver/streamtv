@@ -1,4 +1,5 @@
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import org.junit.Test;
@@ -11,11 +12,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
 import static java.lang.Integer.valueOf;
 
 public class TablePage extends TestBase {
@@ -58,12 +59,13 @@ public class TablePage extends TestBase {
     }
 
     public void searchCreatedRecord(){
-
+        $("input[ng-model='searchFor']").shouldBe(visible);
+        $("input[ng-model='searchFor']").setValue(last_name+" "+first_name+" "+first_name);
+        $(byXpath("//*[@class='btn btn-primary']")).click();
     }
 
     public void verifyCreatedRecord(){
-
-
+        $(byText(last_name+" "+first_name+" "+first_name)).shouldHave(exactText(last_name+" "+first_name+" "+first_name));
     }
 
     @Test
@@ -72,6 +74,11 @@ public class TablePage extends TestBase {
         String pass = "test";
         logIn(login, pass);
         addNewRecord();
+        refreshPage();
+        logIn(login, pass);
+        searchCreatedRecord();
+        verifyCreatedRecord();
+
     }
 
 
