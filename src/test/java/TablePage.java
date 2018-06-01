@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -33,6 +34,8 @@ public class TablePage extends TestBase {
     String style = "//*[@value='wr.style']//select";
     String age = "//*[@value='wr.lictype']//select";
     String year = "//*[@value='wr.expires']//select";
+    String link1 = "//*[@class='col-sm-1 pl-0']//select";
+    String link2 = "//*[@class='table table-striped table-hover']";
 
     public void addNewRecord(){
         $(byXpath("//*[@class='btn btn-default']")).waitUntil(exist, 20000).click();
@@ -70,5 +73,19 @@ public class TablePage extends TestBase {
         logIn(login, pass);
         searchCreatedRecord();
         verifyCreatedRecord();
+    }
+
+    @Test
+    public void chooseCountItemsInTable(){
+        String login = "auto";
+        String pass = "test";
+        logIn(login, pass);
+        $(byXpath(link1)).selectOption(getDropdownItemsCount(link1));
+        $(byXpath(link2)).findAll("tbody").shouldHave(size(getDropdownItemsCount(link1)));
+    }
+
+    @Test
+    public void selectFilter_AllRegions(){
+
     }
 }
