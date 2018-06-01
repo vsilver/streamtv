@@ -21,16 +21,17 @@ public class LoginTest extends TestBase {
 
     @Test
     public void successfullLoginTest(){
-        String login = "auto";
-        String pass = "test";
+        login = "auto";
+        pass = "test";
         logIn(login, pass);
         $(byXpath("//*[@class='btn btn-default']")).waitUntil(exist, 20000);
     }
 
     @Test
     public void failLoginTest(){
-        String login = "qqqq";
-        String pass = "aaaa";
+        login = "qqqq";
+        pass = "aaaa";
+        refreshPage();
         logIn(login, pass);
         $(byXpath("//*[@class='btn btn-default']")).waitUntil(hidden, 20000);
     }

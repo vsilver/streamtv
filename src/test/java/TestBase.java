@@ -1,3 +1,4 @@
+import com.codeborne.selenide.SelenideElement;
 import org.junit.*;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ex.ElementNotFound;
@@ -5,6 +6,7 @@ import com.codeborne.selenide.ex.ElementShould;
 import com.codeborne.selenide.ex.ElementShouldNot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Configuration.baseUrl;
@@ -26,15 +28,27 @@ public class TestBase {
         open("http://streamtv.net.ua/base/");
     }
 
-    //WebElement username = $(byXpath("//*[@id='username']//input"));
-    //WebElement password = $(byXpath("//*[@value='user.password']//input"));
+    SelenideElement username = $(byXpath("//*[@id='username']//input"));
+    SelenideElement password = $(byXpath("//*[@value='user.password']//input"));
 
     public void logIn(String login, String pass){
-        $(byXpath("//*[@id='username']//input")).click();
-        $(byXpath("//*[@id='username']//input")).sendKeys(login);
-        $(byXpath("//*[@value='user.password']//input")).click();
-        $(byXpath("//*[@value='user.password']//input")).sendKeys(pass);
+        username.click();
+        username.sendKeys(login);
+        password.click();
+        password.sendKeys(pass);
         $(byXpath("//*[@class='btn btn-primary pull-right']")).click();
+    }
+
+    public void refreshPage(){
+        refresh();
+    }
+
+    public int getDropdownItemsCount(String myxpath) {
+        Select select = new Select($(byXpath(myxpath)));
+        int max = select.getOptions().size();
+        int min = 1;
+        int range = max - min;
+        return ((int) (Math.random() * range) + min);
     }
 }
 

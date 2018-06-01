@@ -34,15 +34,6 @@ public class TablePage extends TestBase {
     String age = "//*[@value='wr.lictype']//select";
     String year = "//*[@value='wr.expires']//select";
 
-    public int getDropdownItemsCount(String myxpath){
-        Select select = new Select($(byXpath(myxpath)));
-        int max = select.getOptions().size();
-        int min = 1;
-        int range = max - min ;
-        return ((int)(Math.random()*range) + min);
-
-    }
-
     public void addNewRecord(){
         $(byXpath("//*[@class='btn btn-default']")).waitUntil(exist, 20000).click();
         $(byXpath("//*[@class='panel-heading']")).should(text("Wrestler info"));
@@ -65,7 +56,8 @@ public class TablePage extends TestBase {
     }
 
     public void verifyCreatedRecord(){
-        $(byText(last_name+" "+first_name+" "+first_name)).shouldHave(exactText(last_name+" "+first_name+" "+first_name));
+        $(byText(last_name+" "+first_name+" "+first_name))
+                .shouldHave(exactText(last_name+" "+first_name+" "+first_name));
     }
 
     @Test
@@ -78,10 +70,5 @@ public class TablePage extends TestBase {
         logIn(login, pass);
         searchCreatedRecord();
         verifyCreatedRecord();
-
     }
-
-
-
-
 }
